@@ -11,16 +11,11 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.helloWorld",
         "onCommand:strkit.replace"
     ],
     "main": "./out/extension.js",
     "contributes": {
         "commands": [
-            {
-                "command": "extension.helloWorld",
-                "title": "Hello World"
-            },
             {
                 "command": "strkit.replace",
                 "title": "StrKit: Replace"
