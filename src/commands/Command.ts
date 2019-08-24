@@ -23,7 +23,7 @@ function getDocumentTextLines(document: TextDocument | null): Array<TextLine> {
         return []
     }
 
-    return range(1, document.lineCount - 1).map((line) => document.lineAt(line))
+    return range(0, document.lineCount).map((line) => document.lineAt(line))
 }
 
 interface TextLineEditCallback {
