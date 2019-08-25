@@ -13,7 +13,7 @@ export function showInputBox(configurator: InputBoxConfigurator): Promise<string
     const inputBox = window.createInputBox()
 
     // configure the input box
-    configurator(inputBox);
+    configurator(inputBox)
 
     inputBox.show()
 
