@@ -9,7 +9,7 @@ import Replace from './Replace'
  * @param context
  */
 export function registerCommands(context: ExtensionContext) {
-    registerCommand(new Replace(), context);
+    registerCommand(new Replace(), context)
 }
 
 /**

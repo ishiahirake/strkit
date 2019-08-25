@@ -1,4 +1,6 @@
-import { window, InputBox } from 'vscode'
+import { window, InputBox, TextDocument, TextLine } from 'vscode'
+
+import { range } from 'lodash/fp'
 
 interface InputBoxConfigurator {
     (inputBox: InputBox): void
@@ -26,4 +28,17 @@ export function showInputBox(configurator: InputBoxConfigurator): Promise<string
             return resolve(null)
         })
     })
+}
+
+/**
+ * Get all TextLine in the given document.
+ * 
+ * if document is null, return empty array.
+ */
+export function getDocumentTextLines(document: TextDocument | null): Array<TextLine> {
+    if (!document) {
+        return []
+    }
+
+    return range(0, document.lineCount).map((line) => document.lineAt(line))
 }

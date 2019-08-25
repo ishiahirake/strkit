@@ -1,6 +1,8 @@
-import { TextDocument, TextLine, window, TextEditor, TextEditorEdit } from 'vscode'
+import { TextDocument, TextLine, window, TextEditor } from 'vscode'
 
-import { range } from 'lodash/fp'
+import { getDocumentTextLines } from '../vs'
+
+import { parsePatternInput } from '../str'
 
 /**
  */
@@ -14,16 +16,6 @@ export default interface ICommand {
      * Run this comamnd.
      */
     run(): void
-}
-
-/**
- */
-function getDocumentTextLines(document: TextDocument | null): Array<TextLine> {
-    if (!document) {
-        return []
-    }
-
-    return range(0, document.lineCount).map((line) => document.lineAt(line))
 }
 
 interface TextLineEditCallback {
@@ -45,6 +37,8 @@ export abstract class BaseCommand implements ICommand {
 
         return editor!
     }
+
+    parsePatternInput = parsePatternInput
 
     /**
      */
