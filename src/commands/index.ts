@@ -21,6 +21,14 @@ export function registerCommand(command: ICommand, context: ExtensionContext) {
     }))
 }
 
+/**
+ * Execute the given command.
+ * 
+ * As command require an active text editor, if there isn't one, show error info 
+ * and return.
+ * 
+ * @param command {ICommand}
+ */
 function execute(command: ICommand) {
     if (!window.activeTextEditor) {
         window.showInformationMessage("[StrKit] There are no active text editor.")

@@ -1,5 +1,4 @@
-import { window, TextLine } from 'vscode'
-
+import { showInputBox } from '../vs'
 import { BaseCommand } from './Command'
 
 const inputSteps = 2
@@ -8,46 +7,25 @@ const inputSteps = 2
  * Show pattern input box and get the user input.
  */
 function showPatternInputBox(): Promise<string | null> {
-    const inputBox = window.createInputBox()
-
-    // configure the pattern input box
-    inputBox.step = 1
-    inputBox.totalSteps = inputSteps
-    inputBox.title = "StrKit Replace - Input Repalce Pattern"
-    inputBox.placeholder = "Eg. Regex or plain text"
-
-    inputBox.show()
-
-    return new Promise((resolve, reject) => {
-        inputBox.onDidAccept(() => {
-            resolve(inputBox.value)
-            inputBox.dispose()
-        })
-        inputBox.onDidHide(() => {
-            return resolve(null)
-        })
+    return showInputBox((inputBox) => {
+        // configure the pattern input box
+        inputBox.step = 1
+        inputBox.totalSteps = inputSteps
+        inputBox.title = "StrKit Replace - Input Repalce Pattern"
+        inputBox.placeholder = "Eg. Regex or plain text"
     })
 }
 
+/**
+ * Show replace value input box and get the user input.
+ */
 function showReplaceValueInputBox(): Promise<string | null> {
-    const inputBox = window.createInputBox()
-
-    // configure the replace value input box
-    inputBox.step = 2
-    inputBox.totalSteps = inputSteps
-    inputBox.title = "StrKit Replace - Input Replace Value"
-    inputBox.placeholder = "Eg. Regex or plain text"
-
-    inputBox.show()
-
-    return new Promise((resolve, reject) => {
-        inputBox.onDidAccept(() => {
-            resolve(inputBox.value)
-            inputBox.dispose()
-        })
-        inputBox.onDidHide(() => {
-            resolve(null)
-        })
+    return showInputBox((inputBox) => {
+        // configure the replace value input box
+        inputBox.step = 2
+        inputBox.totalSteps = inputSteps
+        inputBox.title = "StrKit Replace - Input Replace Value"
+        inputBox.placeholder = "Eg. Regex or plain text"
     })
 }
 
