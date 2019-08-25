@@ -2,6 +2,7 @@ import { window, commands, ExtensionContext } from 'vscode';
 
 import ICommand from './Command'
 import Replace from './Replace'
+import RemoveEmpty from './RemoveEmpty'
 
 /**
  * Register strkit commands.
@@ -10,6 +11,7 @@ import Replace from './Replace'
  */
 export function registerCommands(context: ExtensionContext) {
     registerCommand(new Replace(), context)
+    registerCommand(new RemoveEmpty(), context)
 }
 
 /**

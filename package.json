@@ -11,7 +11,8 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:strkit.replace"
+        "onCommand:strkit.replace",
+        "onCommand:strkit.remove.empty"
     ],
     "main": "./out/extension.js",
     "contributes": {
@@ -19,6 +20,10 @@
             {
                 "command": "strkit.replace",
                 "title": "StrKit: Replace"
+            },
+            {
+                "command": "strkit.remove.empty",
+                "title": "StrKit: Remove Empty Lines"
             }
         ]
     },

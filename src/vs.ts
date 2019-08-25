@@ -1,4 +1,4 @@
-import { window, InputBox, TextDocument, TextLine } from 'vscode'
+import { window, InputBox, TextDocument, TextLine, TextEditor, EndOfLine, Range, Position } from 'vscode'
 
 import { range } from 'lodash/fp'
 
@@ -41,4 +41,38 @@ export function getDocumentTextLines(document: TextDocument | null): Array<TextL
     }
 
     return range(0, document.lineCount).map((line) => document.lineAt(line))
+}
+
+const EOL_LF = "\n"
+const EOL_CRLF = "\r\n"
+
+/**
+ * 
+ */
+function toEolString(eol: number): string {
+    return eol === EndOfLine.LF ? EOL_LF : EOL_CRLF
+}
+
+type Textable = Array<TextLine> | string
+
+export function toText(textable: Textable, eol: number): string {
+    if (typeof textable === 'string') {
+        return textable
+    }
+
+    return textable.map(textLine => textLine.text).join(toEolString(eol))
+}
+
+export function getDocumentRange(document: TextDocument): Range {
+    return new Range(
+        new Position(0, 0),
+        document.lineAt(document.lineCount - 1).range.end
+    )
+}
+
+export function setEditorText(editor: TextEditor, textable: Textable) {
+    const newText = toText(textable, editor.document.eol)
+    editor.edit((editorEdit) => {
+        editorEdit.replace(getDocumentRange(editor.document), newText)
+    })
 }
