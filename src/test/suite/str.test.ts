@@ -19,4 +19,11 @@ suite('Str test suite', () => {
         assert.equal('gi', result.flags)
         assert.ok(result.test('12and'))
     })
+
+    test('isEmpty', () => {
+        assert.ok(strings.isEmpty(''))
+        assert.ok(strings.isEmpty('\t\r\n'))
+        assert.ok(!strings.isEmpty('  leading whitespace'))
+        assert.ok(!strings.isEmpty('  whitespace surrounding  '))
+    })
 })
