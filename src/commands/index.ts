@@ -1,4 +1,4 @@
-import { window, commands, ExtensionContext } from 'vscode';
+import { window, commands, ExtensionContext } from 'vscode'
 
 import ICommand from './Command'
 import Replace from './Replace'

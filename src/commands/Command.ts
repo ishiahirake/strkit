@@ -18,6 +18,12 @@ export default interface ICommand {
     run(): void
 }
 
+export interface ICommandVariant {
+    commandId?: string
+    options?: any,
+    label: string
+}
+
 interface TextLineEditCallback {
     (textLine: TextLine): string
 }

@@ -12,7 +12,8 @@
     ],
     "activationEvents": [
         "onCommand:strkit.replace",
-        "onCommand:strkit.remove.empty"
+        "onCommand:strkit.remove.empty",
+        "onView:strkit"
     ],
     "main": "./out/extension.js",
     "contributes": {
@@ -25,7 +26,24 @@
                 "command": "strkit.remove.empty",
                 "title": "StrKit: Remove Empty Lines"
             }
-        ]
+        ],
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "strkit",
+                    "title": "String Toolkit",
+                    "icon": "resources/icons/strkit.svg"
+                }
+            ]
+        },
+        "views": {
+            "strkit": [
+                {
+                    "id": "strkit",
+                    "name": ""
+                }
+            ]
+        }
     },
     "scripts": {
         "vscode:prepublish": "yarn run compile",
