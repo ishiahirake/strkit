@@ -4,6 +4,8 @@ import ICommand from './Command'
 import Replace from './Replace'
 import RemoveEmpty from './RemoveEmpty'
 
+import { addRecently } from '../storage'
+
 /**
  * Register strkit commands.
  * 
@@ -31,11 +33,18 @@ export function registerCommand(command: ICommand, context: ExtensionContext) {
  * 
  * @param command {ICommand}
  */
-function execute(command: ICommand) {
+async function execute(command: ICommand) {
     if (!window.activeTextEditor) {
         window.showInformationMessage("[StrKit] There are no active text editor.")
         return
     }
 
-    command.run()
+    let variant = command.run()
+    if (variant instanceof Promise) {
+        variant = await variant
+    }
+
+    if (variant !== null) {
+        addRecently(variant)
+    }
 }

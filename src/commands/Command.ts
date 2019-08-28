@@ -1,8 +1,14 @@
 import { TextDocument, TextLine, window, TextEditor } from 'vscode'
 
 import { getDocumentTextLines } from '../vs'
-
 import { parsePatternInput } from '../str'
+
+export interface ICommandVariant {
+    commandId?: string
+    options?: any,
+    label: string,
+    type: string
+}
 
 /**
  */
@@ -15,13 +21,7 @@ export default interface ICommand {
     /**
      * Run this comamnd.
      */
-    run(): void
-}
-
-export interface ICommandVariant {
-    commandId?: string
-    options?: any,
-    label: string
+    run(): ICommandVariant | null | Promise<ICommandVariant | null>
 }
 
 interface TextLineEditCallback {
@@ -33,7 +33,7 @@ interface TextLineEditCallback {
  */
 export abstract class BaseCommand implements ICommand {
     abstract get commandId(): string
-    abstract run(): void
+    abstract run(): ICommandVariant | null | Promise<ICommandVariant | null>
 
     get editor(): TextEditor {
         const editor = window.activeTextEditor

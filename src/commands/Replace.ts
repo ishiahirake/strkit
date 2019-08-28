@@ -1,5 +1,5 @@
 import { showInputBox } from '../vs'
-import { BaseCommand } from './Command'
+import { BaseCommand, ICommandVariant } from './Command'
 
 const inputSteps = 2
 
@@ -41,18 +41,24 @@ interface ReplaceOptions {
  */
 export default class Replace extends BaseCommand {
 
-    async run() {
+    async run(): Promise<ICommandVariant | null> {
         const pattern = await showPatternInputBox()
         if (pattern === null) {
-            return
+            return null
         }
 
         const replaceValue = await showReplaceValueInputBox()
         if (replaceValue === null) {
-            return
+            return null
         }
 
-        return this.operate({ pattern, replaceValue })
+        this.operate({ pattern, replaceValue })
+
+        return {
+            type: 'operation',
+            label: 'Replace',
+            commandId: this.commandId
+        }
     }
 
     operate({pattern, replaceValue}: ReplaceOptions) {

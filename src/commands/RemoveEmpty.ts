@@ -1,5 +1,5 @@
 import { TextLine } from "vscode"
-import { BaseCommand } from "./Command"
+import { BaseCommand, ICommandVariant } from "./Command"
 
 import { setEditorText } from "../vs"
 import { isEmpty } from "../str"
@@ -13,8 +13,14 @@ export default class RemoveEmpty extends BaseCommand {
         return 'strkit.remove.empty'
     }
 
-    run(): void {
+    run() {
         setEditorText(this.editor, this.operate(this.getDocumentTextLines()))
+
+        return {
+            type: 'operation',
+            label: 'Remove Empty Lines',
+            commandId: this.commandId
+        }
     }
 
     operate(textLines: Array<TextLine>) {

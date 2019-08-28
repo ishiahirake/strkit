@@ -1,5 +1,11 @@
-import { TreeDataProvider, TreeItem, TreeItemCollapsibleState, Event, ProviderResult } from "vscode"
+import { 
+    TreeDataProvider, 
+    TreeItem, 
+    TreeItemCollapsibleState, 
+    ProviderResult
+} from "vscode"
 
+import { getRecently, strKitItemEventEmitter } from "../storage"
 import { ICommandVariant } from '../commands/Command'
 
 class StrkitItem extends TreeItem {
@@ -9,34 +15,31 @@ class StrkitItem extends TreeItem {
     ) {
         super(commandVariant.label, collapsibleState)
     }
+
+    contextValue = this.commandVariant.type
 }
 
-class RootItem extends StrkitItem {
-    contextValue = "rootItem"
-}
+export default class StrKitProvider implements TreeDataProvider<ICommandVariant> {
 
-class PipelineItem extends StrkitItem {
-    contextValue = "pipelineItem"
-}
+    onDidChangeTreeData = strKitItemEventEmitter.event
 
-class OperationItem extends StrkitItem {
-    contextValue = "operationItem"
-}
-
-export default class StrKitProvider implements TreeDataProvider<StrkitItem> {
-
-    onDidChangeTreeData?: Event<StrkitItem | null | undefined> | undefined = undefined
-
-    getTreeItem(element: StrkitItem): TreeItem | Thenable<TreeItem> {
-        return element
+    getTreeItem(element: ICommandVariant): TreeItem | Thenable<TreeItem> {
+        return new StrkitItem(
+            element,
+            element.type === 'root' ? TreeItemCollapsibleState.Expanded : TreeItemCollapsibleState.None
+        )
     }
 
-    getChildren(element?: StrkitItem): ProviderResult<StrkitItem[]> {
+    getChildren(element?: ICommandVariant): ProviderResult<ICommandVariant[]> {
         if (!element) {
             return [
-                new RootItem({label: 'Saved'}, TreeItemCollapsibleState.Expanded),
-                new RootItem({label: 'Recently'}, TreeItemCollapsibleState.Expanded)
+                { label: 'Saved', type: 'root' },
+                { label: 'Recently', type: 'root' },
             ]
+        }
+
+        if (element.label === 'Recently') {
+            return getRecently()
         }
 
         return []
