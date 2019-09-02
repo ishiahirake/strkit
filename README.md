@@ -5,3 +5,12 @@
 A string toolkit for vscode.
 
 Now in developing...
+
+## Roadmap
+
+- [x] Remove Empty lines
+- [x] Replace
+- [ ] Sort
+- [ ] Reverse
+- [ ] Trim
+- [ ] Filter
