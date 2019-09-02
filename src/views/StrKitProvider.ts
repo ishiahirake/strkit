@@ -1,11 +1,13 @@
-import { 
-    TreeDataProvider, 
-    TreeItem, 
-    TreeItemCollapsibleState, 
-    ProviderResult
+import {
+    TreeDataProvider,
+    TreeItem,
+    TreeItemCollapsibleState,
+    ProviderResult,
+    EventEmitter,
+    Event
 } from "vscode"
 
-import { getRecently, strKitItemEventEmitter } from "../storage"
+import { getRecently, addRecently } from "../storage"
 import { ICommandVariant } from '../commands/Command'
 
 class StrkitItem extends TreeItem {
@@ -19,9 +21,14 @@ class StrkitItem extends TreeItem {
     contextValue = this.commandVariant.type
 }
 
-export default class StrKitProvider implements TreeDataProvider<ICommandVariant> {
+class StrKitProvider implements TreeDataProvider<ICommandVariant> {
 
-    onDidChangeTreeData = strKitItemEventEmitter.event
+    private _onDidChangeTreeData: EventEmitter<ICommandVariant | undefined> = new EventEmitter<ICommandVariant | undefined>()
+    public readonly onDidChangeTreeData: Event<ICommandVariant | undefined> = this._onDidChangeTreeData.event
+
+    refresh(): void {
+        this._onDidChangeTreeData.fire()
+    }
 
     getTreeItem(element: ICommandVariant): TreeItem | Thenable<TreeItem> {
         return new StrkitItem(
@@ -45,3 +52,7 @@ export default class StrKitProvider implements TreeDataProvider<ICommandVariant>
         return []
     }
 }
+
+const strKitProvider = new StrKitProvider()
+
+export default strKitProvider

@@ -25,6 +25,14 @@
             {
                 "command": "strkit.remove.empty",
                 "title": "StrKit: Remove Empty Lines"
+            },
+            {
+                "command": "strkit.refresh",
+                "title": "Refresh",
+                "icon": {
+                    "light": "resources/icons/refresh.svg",
+                    "dark": "resources/icons/refresh.svg"
+                }
             }
         ],
         "viewsContainers": {
@@ -41,6 +49,15 @@
                 {
                     "id": "strkit",
                     "name": ""
+                }
+            ]
+        },
+        "menus": {
+            "view/title": [
+                {
+                    "command": "strkit.refresh",
+                    "when": "view == strkit",
+                    "group": "navigation"
                 }
             ]
         }

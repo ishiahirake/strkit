@@ -1,7 +1,8 @@
-import { window } from 'vscode'
+import { window, ExtensionContext, commands } from 'vscode'
 
-import StrKitProvider from './StrkitProvider'
+import strKitProvider from './StrkitProvider'
 
-export function registerViews() {
-    window.registerTreeDataProvider('strkit', new StrKitProvider())
+export function registerViews(context: ExtensionContext) {
+    window.registerTreeDataProvider('strkit', strKitProvider)
+    commands.registerCommand('strkit.refresh', () => strKitProvider.refresh())
 }

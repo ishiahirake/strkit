@@ -13,7 +13,7 @@ export function activate(context: vscode.ExtensionContext) {
     initStore(context.globalState)
 
     registerCommands(context)
-    registerViews()
+    registerViews(context)
 }
 
 // this method is called when your extension is deactivated

@@ -46,5 +46,6 @@ async function execute(command: ICommand) {
 
     if (variant !== null) {
         addRecently(variant)
+        commands.executeCommand('strkit.refresh')
     }
 }
