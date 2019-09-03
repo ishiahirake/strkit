@@ -1,14 +1,12 @@
 
-export type OperationValue = Array<string>
-export interface OperationOptions {
-}
+import { OperationValue, IOperationOptions } from '../types'
 
 export default interface IOperation {
     readonly operationId: string
-    execute(arg: OperationValue, options: OperationOptions): OperationValue
+    execute(value: OperationValue, options: IOperationOptions): OperationValue
 }
 
 export abstract class AbstractOperation implements IOperation {
     abstract get operationId(): string
-    abstract execute(arg: OperationValue, options: OperationOptions): OperationValue
+    abstract execute(value: OperationValue, options: IOperationOptions): OperationValue
 }

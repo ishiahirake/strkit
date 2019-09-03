@@ -1,5 +1,7 @@
 import { showInputBox } from '../vs'
-import { BaseCommand, ICommandVariant } from './Command'
+import { BaseCommand } from './Command'
+
+import { ReplaceOptions } from '../operations/Replace'
 
 const inputSteps = 2
 
@@ -31,47 +33,29 @@ function showReplaceValueInputBox(value: string = ''): Promise<string | null> {
     })
 }
 
-interface ReplaceOptions {
-    pattern: string
-    replaceValue: string
-}
-
 /**
  * 
  */
 export default class Replace extends BaseCommand {
-
-    async run(): Promise<ICommandVariant | null> {
-        const pattern = await showPatternInputBox()
-        if (pattern === null) {
-            return null
-        }
-
-        const replaceValue = await showReplaceValueInputBox()
-        if (replaceValue === null) {
-            return null
-        }
-
-        this.operate({ pattern, replaceValue })
-
-        return {
-            type: 'operation',
-            label: 'Replace',
-            commandId: this.commandId
-        }
-    }
-
-    operate({pattern, replaceValue}: ReplaceOptions) {
-        const searchValue = this.parsePatternInput(pattern)
-        this.editEachLine((textLine) => {
-            return textLine.text.replace(searchValue, replaceValue)
-        })
-    }
 
     /**
      * ID of this command.
      */
     get commandId() {
         return "strkit.replace"
+    }
+
+    async input(): Promise<ReplaceOptions | false> {
+        const searchValue = await showPatternInputBox()
+        if (searchValue === null) {
+            return Promise.resolve(false)
+        }
+
+        const replaceValue = await showReplaceValueInputBox()
+        if (replaceValue === null) {
+            return Promise.resolve(false)
+        }
+
+        return Promise.resolve({ searchValue, replaceValue })
     }
 }

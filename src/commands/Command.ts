@@ -1,14 +1,11 @@
-import { TextDocument, TextLine, window, TextEditor } from 'vscode'
+import { TextLine, window, commands } from 'vscode'
 
-import { getDocumentTextLines } from '../vs'
-import { parsePatternInput } from '../str'
+import { getDocumentTextLines, setEditorText } from '../vs'
 
-export interface ICommandVariant {
-    commandId?: string
-    options?: any,
-    label: string,
-    type: string
-}
+import { execute } from '../operations'
+import { addRecently } from '../storage'
+
+import { StrKitTreeItemMetadataType } from '../types'
 
 /**
  */
@@ -21,46 +18,57 @@ export default interface ICommand {
     /**
      * Run this comamnd.
      */
-    run(): ICommandVariant | null | Promise<ICommandVariant | null>
+    run(): void
 }
 
-interface TextLineEditCallback {
-    (textLine: TextLine): string
-}
-
-/**
- * 
- */
 export abstract class BaseCommand implements ICommand {
-    abstract get commandId(): string
-    abstract run(): ICommandVariant | null | Promise<ICommandVariant | null>
 
-    get editor(): TextEditor {
+    async run(): Promise<void> {
         const editor = window.activeTextEditor
         if (!editor) {
-            window.showErrorMessage("[StrKit] There are no active TextEditor")
+            window.showInformationMessage("[StrKit] There are no active text editor.")
+            return
         }
 
-        return editor!
+        const options = await this.input()
+        if (options === false) {
+            return Promise.resolve()
+        }
+
+        const value = getDocumentTextLines(editor.document)
+            .map((textLine: TextLine) => textLine.text)
+
+        try {
+            const metadata = {
+                options,
+                type: StrKitTreeItemMetadataType.OPERATION,
+                label: this.name,
+                operationId: this.targetOperationId,
+            }
+
+            const result = execute(value, metadata)
+
+            addRecently(metadata)
+            commands.executeCommand('strkit.refresh')
+
+            setEditorText(editor, result)
+        }
+        catch (e) {
+            window.showErrorMessage(e.message)
+        }
     }
 
-    parsePatternInput = parsePatternInput
-
-    /**
-     */
-    getDocumentTextLines = (document: TextDocument | null = null) => {
-        return getDocumentTextLines(document || this.editor.document)
+    async input(): Promise<any> {
+        return Promise.resolve({})
     }
 
-    /**
-     * @param callback
-     */
-    editEachLine(callback: TextLineEditCallback) {
-        this.editor.edit((editorEdit) => {
-            this.getDocumentTextLines()
-                .forEach((textLine: TextLine) => {
-                    editorEdit.replace(textLine.range, callback(textLine))
-                })
-        })
+    abstract get commandId(): string
+
+    get targetOperationId(): string {
+        return this.commandId.replace('strkit.', '')
+    }
+
+    get name(): string {
+        return this.constructor.name
     }
 }

@@ -8,41 +8,55 @@ import {
 } from "vscode"
 
 import { getRecently } from "../storage"
-import { ICommandVariant } from '../commands/Command'
+import { StrKitTreeItemMetadata, StrKitTreeItemMetadataType } from '../types'
 
 class StrkitItem extends TreeItem {
     constructor(
-        public readonly commandVariant: ICommandVariant,
+        public readonly metadata: StrKitTreeItemMetadata,
         public readonly collapsibleState: TreeItemCollapsibleState
     ) {
-        super(commandVariant.label, collapsibleState)
+        super(metadata.label, collapsibleState)
     }
 
-    contextValue = this.commandVariant.type
+    contextValue = this.metadata.type
 }
 
-class StrKitProvider implements TreeDataProvider<ICommandVariant> {
+const SAVED = {
+    label: 'Saved',
+    type: StrKitTreeItemMetadataType.ROOT
+}
 
-    private _onDidChangeTreeData: EventEmitter<ICommandVariant | undefined> = new EventEmitter<ICommandVariant | undefined>()
-    public readonly onDidChangeTreeData: Event<ICommandVariant | undefined> = this._onDidChangeTreeData.event
+const RECENTLY = {
+    label: 'Recently',
+    type: StrKitTreeItemMetadataType.ROOT
+}
+
+const ROOT_TREE_ITEMS = [
+    SAVED,
+    RECENTLY
+]
+
+class StrKitProvider implements TreeDataProvider<StrKitTreeItemMetadata> {
+
+    private _onDidChangeTreeData: EventEmitter<StrKitTreeItemMetadata | undefined> = new EventEmitter<StrKitTreeItemMetadata | undefined>()
+    public readonly onDidChangeTreeData: Event<StrKitTreeItemMetadata | undefined> = this._onDidChangeTreeData.event
 
     refresh(): void {
         this._onDidChangeTreeData.fire()
     }
 
-    getTreeItem(element: ICommandVariant): TreeItem | Thenable<TreeItem> {
+    getTreeItem(element: StrKitTreeItemMetadata): TreeItem | Thenable<TreeItem> {
         return new StrkitItem(
             element,
-            element.type === 'root' ? TreeItemCollapsibleState.Expanded : TreeItemCollapsibleState.None
+            element.type === StrKitTreeItemMetadataType.ROOT
+                ? TreeItemCollapsibleState.Expanded
+                : TreeItemCollapsibleState.None
         )
     }
 
-    getChildren(element?: ICommandVariant): ProviderResult<ICommandVariant[]> {
+    getChildren(element?: StrKitTreeItemMetadata): ProviderResult<StrKitTreeItemMetadata[]> {
         if (!element) {
-            return [
-                { label: 'Saved', type: 'root' },
-                { label: 'Recently', type: 'root' },
-            ]
+            return ROOT_TREE_ITEMS
         }
 
         if (element.label === 'Recently') {

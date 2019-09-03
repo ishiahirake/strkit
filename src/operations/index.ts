@@ -1,19 +1,16 @@
 
-import IOperation, { OperationValue, OperationOptions } from './Operation'
+import IOperation from './Operation'
 import Replace from './Replace'
+import RemoveEmpty from './RemoveEmpty'
 
-export class OperationMetadata {
-    constructor(
-        public readonly operationId: string,
-        public readonly options: OperationOptions
-    ) { }
+import { OperationMetadata, IFluent, OperationValue } from '../types'
+
+const operations: IFluent<IOperation> = {
+    replace: new Replace(),
+    'remove.empty': new RemoveEmpty()
 }
 
-const operations: {[index: string]: IOperation} = {
-    replace: new Replace()
-}
-
-export function execute(value: OperationValue ,metadata: OperationMetadata): OperationValue | false {
+export function execute(value: OperationValue ,metadata: OperationMetadata): OperationValue {
     const target = operations[metadata.operationId]
     if (!target) {
         throw new Error(`Operation ${metadata.operationId} not found.`)

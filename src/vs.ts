@@ -46,21 +46,20 @@ export function getDocumentTextLines(document: TextDocument | null): Array<TextL
 const EOL_LF = "\n"
 const EOL_CRLF = "\r\n"
 
-/**
- * 
- */
 function toEolString(eol: number): string {
     return eol === EndOfLine.LF ? EOL_LF : EOL_CRLF
 }
 
-type Textable = Array<TextLine> | string
+type Textable = Array<string> | string
 
 export function toText(textable: Textable, eol: number): string {
     if (typeof textable === 'string') {
         return textable
     }
 
-    return textable.map(textLine => textLine.text).join(toEolString(eol))
+    return textable
+        .map((text) => text)
+        .join(toEolString(eol))
 }
 
 export function getDocumentRange(document: TextDocument): Range {

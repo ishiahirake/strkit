@@ -1,6 +1,7 @@
-import { AbstractOperation, OperationValue, OperationOptions } from './Operation'
+import { AbstractOperation } from './Operation'
+import { IOperationOptions, OperationValue } from '../types'
 
-interface ReplaceOptions extends OperationOptions {
+export interface ReplaceOptions extends IOperationOptions {
     searchValue: string
     replaceValue: string
 }
@@ -18,7 +19,7 @@ export default class Replace extends AbstractOperation {
         return "strkit.replace"
     }
 
-    execute(arg: OperationValue, options: ReplaceOptions): OperationValue {
-        return arg.map(line => doReplace(line, options))
+    execute(value: OperationValue, options: ReplaceOptions): OperationValue {
+        return value.map(line => doReplace(line, options))
     }
 }
