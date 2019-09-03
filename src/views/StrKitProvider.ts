@@ -7,7 +7,7 @@ import {
     Event
 } from "vscode"
 
-import { getRecently, addRecently } from "../storage"
+import { getRecently } from "../storage"
 import { ICommandVariant } from '../commands/Command'
 
 class StrkitItem extends TreeItem {

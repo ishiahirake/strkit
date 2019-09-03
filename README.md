@@ -14,3 +14,4 @@ Now in developing...
 - [ ] Reverse
 - [ ] Trim
 - [ ] Filter
+- [ ] Delete Recently & Saved
