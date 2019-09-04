@@ -1,6 +1,6 @@
 import { window, ExtensionContext, commands } from 'vscode'
 
-import strKitProvider from './StrkitProvider'
+import strKitProvider from './StrKitProvider'
 
 export function registerViews(context: ExtensionContext) {
     window.registerTreeDataProvider('strkit', strKitProvider)
