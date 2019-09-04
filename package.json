@@ -33,6 +33,14 @@
                     "light": "resources/icons/refresh.svg",
                     "dark": "resources/icons/refresh.svg"
                 }
+            },
+            {
+                "command": "strkit.delete.operation",
+                "title": "Delete",
+                "icon": {
+                    "light": "resources/icons/delete.svg",
+                    "dark": "resources/icons/delete.svg"
+                }
             }
         ],
         "viewsContainers": {
@@ -58,6 +66,13 @@
                     "command": "strkit.refresh",
                     "when": "view == strkit",
                     "group": "navigation"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "strkit.delete.operation",
+                    "when": "view == strkit",
+                    "group": "inline"
                 }
             ]
         }

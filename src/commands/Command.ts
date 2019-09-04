@@ -5,7 +5,7 @@ import { getDocumentTextLines, setEditorText } from '../vs'
 import { execute } from '../operations'
 import { addRecently } from '../storage'
 
-import { StrKitTreeItemMetadataType } from '../types'
+import { StrKitTreeItemMetadataType, OperationMetadata } from '../types'
 
 /**
  */
@@ -39,12 +39,12 @@ export abstract class BaseCommand implements ICommand {
             .map((textLine: TextLine) => textLine.text)
 
         try {
-            const metadata = {
+            const metadata = new OperationMetadata(
+                this.targetOperationId,
                 options,
-                type: StrKitTreeItemMetadataType.OPERATION,
-                label: this.name,
-                operationId: this.targetOperationId,
-            }
+                this.name,
+                StrKitTreeItemMetadataType.OPERATION,
+            )
 
             const result = execute(value, metadata)
 

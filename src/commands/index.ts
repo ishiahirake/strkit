@@ -4,6 +4,8 @@ import ICommand from './Command'
 import Replace from './Replace'
 import RemoveEmpty from './RemoveEmpty'
 
+import { deleteOperation } from '../storage'
+
 /**
  * Register strkit commands.
  * 
@@ -12,6 +14,11 @@ import RemoveEmpty from './RemoveEmpty'
 export function registerCommands(context: ExtensionContext) {
     registerCommand(new Replace(), context)
     registerCommand(new RemoveEmpty(), context)
+
+    commands.registerCommand('strkit.delete.operation', function (metadata) {
+        deleteOperation(metadata)
+        commands.executeCommand('strkit.refresh')
+    })
 }
 
 /**

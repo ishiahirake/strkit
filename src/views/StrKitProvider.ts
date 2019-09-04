@@ -22,11 +22,13 @@ class StrkitItem extends TreeItem {
 }
 
 const SAVED = {
+    id: 'Saved',
     label: 'Saved',
-    type: StrKitTreeItemMetadataType.ROOT
+    type: StrKitTreeItemMetadataType.ROOT,
 }
 
 const RECENTLY = {
+    id: 'Recently',
     label: 'Recently',
     type: StrKitTreeItemMetadataType.ROOT
 }
@@ -59,7 +61,7 @@ class StrKitProvider implements TreeDataProvider<StrKitTreeItemMetadata> {
             return ROOT_TREE_ITEMS
         }
 
-        if (element.label === 'Recently') {
+        if (element.id === 'Recently') {
             return getRecently()
         }
 

@@ -14,4 +14,5 @@ Now in developing...
 - [ ] Reverse
 - [ ] Trim
 - [ ] Filter
-- [ ] Delete Recently & Saved
+- [x] Delete Recently
+- [ ] Delete Saved
