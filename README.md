@@ -4,7 +4,14 @@
 
 A string toolkit for vscode.
 
-Now in developing...
+## Getting Started
+
+To setup development environment:
+
+1. clone this repository
+2. run `yarn install` to install dependencies
+3. open this repository using **vscode**
+4. press `F5` to run (debug) this extension
 
 ## Roadmap
 

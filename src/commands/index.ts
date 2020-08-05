@@ -8,7 +8,7 @@ import { deleteOperation } from '../storage'
 
 /**
  * Register strkit commands.
- * 
+ *
  * @param context
  */
 export function registerCommands(context: ExtensionContext) {

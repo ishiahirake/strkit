@@ -8,7 +8,7 @@ interface InputBoxConfigurator {
 
 /**
  * Show input box and get the user input.
- * 
+ *
  * if cancelled, Promise will return null, otherwise the user input.
  */
 export function showInputBox(configurator: InputBoxConfigurator): Promise<string | null> {
@@ -32,7 +32,7 @@ export function showInputBox(configurator: InputBoxConfigurator): Promise<string
 
 /**
  * Get all TextLine in the given document.
- * 
+ *
  * if document is null, return empty array.
  */
 export function getDocumentTextLines(document: TextDocument | null): Array<TextLine> {

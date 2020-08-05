@@ -34,7 +34,7 @@ function showReplaceValueInputBox(value: string = ''): Promise<string | null> {
 }
 
 /**
- * 
+ *
  */
 export default class Replace extends BaseCommand {
 
